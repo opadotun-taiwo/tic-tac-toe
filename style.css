@@ -1,0 +1,180 @@
+*, *::before,
+*::after{
+   
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0px;
+}
+
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * .9)
+}
+
+
+.board{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.cell{
+    border: 1px solid black;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell.x,
+.cell.circle{
+    cursor: not-allowed;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3){
+    border-top: none;
+}
+
+.cell:first-child,
+.cell:nth-child(4),
+.cell:nth-child(7) {
+    border-left: none;
+}
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+    border-bottom: none;
+}
+
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) {
+    border-right: none;
+}
+
+/*select the cells before and after content and give it a bg black*/
+.cell.x::before,
+.cell.x::after{
+    background-color: black;
+}
+
+/*when the board with a cell is hovered and it is empty give X but make it light grey on hover */
+.board.x .cell:not(.x):not(.circle):hover:before,
+.board.x .cell:not(.x):not(.circle):hover:after{
+    background-color: lightgrey;
+}
+
+/*create a x content with before and after and when cells are hovered in board apply the hover with 
+but no bg color inherits form up above the same style*/
+.cell.x::before,
+ .cell.x::after,
+ .board.x .cell:not(.x):not(.circle):hover::before,
+ .board.x .cell:not(.x):not(.circle):hover::after {
+    content: "";
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+    align-items: center;
+    position: absolute;
+}
+
+/*transform it for indivdual cell and when hovered anywhere on the board*/
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+}
+
+/*transform it for indivdual cell and when hovered anywhere on the board*/
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+/*create circle element with before and after*/
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+}
+
+/*change the color*/
+.cell.circle::before{
+    background-color: black;
+}
+
+/*on a board with circle class but an empty cell the on hover add bg color*/
+.board.circle .cell:not(.x):not(.circle):hover::before{
+    background-color: lightgrey;
+}
+
+/*create the width and hieght before no reduction*/
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before{
+    width: calc(var(--mark-size));
+    height: var(--mark-size);
+    
+}
+
+.cell.circle::after{
+    background-color: white;
+}
+
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    background-color: white;
+}
+
+/*create the width and hieght before with reduction to form the inner part of the circle*/
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    
+}
+
+.winning-screen{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .9);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+}
+
+.winning-screen button{
+    font-size: 3rem;
+    padding: .25rem;
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.winning-screen button:hover{
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+}
+
+.winning-screen.show{
+    display: flex;
+}
